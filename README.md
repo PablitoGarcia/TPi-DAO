@@ -48,6 +48,7 @@ Dificultad Extra:
     4. Ofertas y Descuentos: Implementar la capacidad de aplicar descuentos especiales
     a ciertos autos o promociones por tiempo limitado, y reflejar estos descuentos en
     las ventas.
+
 Reportes adicionales:
   - Reporte de Repuestos Vendidos: Generar un reporte que muestre los repuestos
   más vendidos, con un gráfico de barras comparando las ventas por mes.
