@@ -49,9 +49,9 @@ Dificultad Extra:
     a ciertos autos o promociones por tiempo limitado, y reflejar estos descuentos en
     las ventas.
 Reportes adicionales:
-   Reporte de Repuestos Vendidos: Generar un reporte que muestre los repuestos
+  - Reporte de Repuestos Vendidos: Generar un reporte que muestre los repuestos
   más vendidos, con un gráfico de barras comparando las ventas por mes.
-   Estadísticas de Garantías: Listar todas las garantías reclamadas en un periodo,
+  - Estadísticas de Garantías: Listar todas las garantías reclamadas en un periodo,
   con detalles sobre el tipo de falla y el costo cubierto por la garantía.
-   Informe de Descuentos Aplicados: Crear un reporte que muestre el total de
+  - Informe de Descuentos Aplicados: Crear un reporte que muestre el total de
   descuentos aplicados en un periodo, desglosado por tipo de auto y promoción.
