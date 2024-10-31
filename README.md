@@ -31,11 +31,11 @@ manejar la venta de autos, clientes, y servicios post-venta.
      Generar un reporte de los autos más vendidos por marca.
 
 Dificultad Extra:
-   Incluir validaciones: Verificar que los autos no puedan venderse dos veces. Los
+  - Incluir validaciones: Verificar que los autos no puedan venderse dos veces. Los
   servicios deben estar asociados a autos ya vendidos.
-   Implementar reportes: generar un gráfico de torta que muestre la distribución de
+  - Implementar reportes: generar un gráfico de torta que muestre la distribución de
   ventas por marca, y un gráfico de líneas mostrando los ingresos mensuales.
-  Operaciones adicionales (opcion de agregar alguna si consideran):
+  - Operaciones adicionales (opcion de agregar alguna si consideran):
     1. Gestión de Inventario de Repuestos: Crear un módulo para manejar el inventario
     de repuestos y accesorios para autos, con opciones para registrar nuevas entradas,
     ventas y bajas por desgaste.
@@ -48,7 +48,6 @@ Dificultad Extra:
     4. Ofertas y Descuentos: Implementar la capacidad de aplicar descuentos especiales
     a ciertos autos o promociones por tiempo limitado, y reflejar estos descuentos en
     las ventas.
-    
 Reportes adicionales:
    Reporte de Repuestos Vendidos: Generar un reporte que muestre los repuestos
   más vendidos, con un gráfico de barras comparando las ventas por mes.
