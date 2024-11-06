@@ -3,6 +3,7 @@ import tkinter as tk
 from tkinter import ttk
 from models.venta import Venta
 from models.Observer.Sujeto import Sujeto
+from tkcalendar import DateEntry
 
 class RegistroVenta(tk.Frame,Sujeto):
     def __init__(self, master, sistema):
@@ -27,7 +28,7 @@ class RegistroVenta(tk.Frame,Sujeto):
         self.cargar_clientes() 
         
         tk.Label(self, text="Fecha de venta:").grid(row=3, column=0)
-        self.fecha_venta_entry = tk.Entry(self)
+        self.fecha_venta_entry = DateEntry(self, width=12, background="darkblue", foreground="white", borderwidth=2)
         self.fecha_venta_entry.grid(row=3, column=1)
         
         tk.Label(self, text="Vendedor:").grid(row=4, column=0)
@@ -49,10 +50,12 @@ class RegistroVenta(tk.Frame,Sujeto):
         id_venta = self.id_venta_entry.get()
         auto = self.id_auto_venta_combobox.get()
         cliente = self.id_cliente_venta_combobox.get()
-        fecha = self.fecha_venta_entry.get()
+        fecha = self.fecha_venta_entry.get_date()
         vendedor = self.id_vendedor_venta_combobox.get()
         
         nuevo_venta = Venta(id_venta, auto, cliente, fecha, vendedor)
+        self.sistema.vender_auto(auto)
+        
         mensaje = self.sistema.registrar_venta(nuevo_venta)
         self.message_label.config(text=mensaje)
 
@@ -62,14 +65,14 @@ class RegistroVenta(tk.Frame,Sujeto):
         self.id_venta_entry.delete(0, tk.END)
         self.id_auto_venta_combobox.set("")
         self.id_cliente_venta_combobox.set("")
-        self.fecha_venta_entry.delete(0, tk.END)
+        self.fecha_venta_entry.set_date("")
         self.id_vendedor_venta_combobox.set("")
 
         
     #cargar autos en combobox
     def cargar_autos(self):
         # Obtiene la lista de autos y la carga en el ComboBox de id_autos
-        autos = self.sistema.listar_autos()
+        autos = self.sistema.listar_autos_no_vendidos()
         auto_ids = [auto[0] for auto in autos]  # Obtener solo los IDs de los autos
         self.id_auto_venta_combobox['values'] = auto_ids
 

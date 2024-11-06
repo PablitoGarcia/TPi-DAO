@@ -30,7 +30,7 @@ class Database():
                             )
             ''')
         
-
+        
         self.cursor.execute('''
             CREATE TABLE IF NOT EXISTS autos (
                 vin INTEGER PRIMARY KEY,
@@ -40,6 +40,7 @@ class Database():
                 precio REAL,
                 estado TEXT,
                 cliente_id TEXT,
+                estado_venta BOOLEAN NOT NULL DEFAULT FALSE,
                 FOREIGN KEY(cliente_id) REFERENCES clientes(id_cliente)
             )
         ''')
@@ -72,11 +73,12 @@ class Database():
                             id_servicio INTEGER PRIMARY KEY,
                             id_auto INTEGER, 
                             tipo_servicio TEXT, 
-                            fecha DATETIME, 
+                            fecha DATE, 
                             costo REAL,
                             FOREIGN KEY(id_auto) REFERENCES autos(vin)
                             )
             ''')
+        
         
         self.connection.commit()
     
@@ -107,6 +109,14 @@ class Database():
         
         self.cursor.execute("SELECT vin,marca,modelo,anio,precio,estado,cliente_id FROM autos")
         return self.cursor.fetchall()
+    
+    
+    def get_autos_no_vendidos(self):
+        self.cursor.execute("SELECT vin,marca,modelo,anio,precio,estado,cliente_id FROM autos WHERE estado_venta = 0")
+        return self.cursor.fetchall()
+        
+    def vender_auto(self, id_auto):
+        self.cursor.execute("UPDATE autos SET estado_venta = 1 WHERE vin = ?", (id_auto,))
     
     def agregar_vendedor(self,id_cliente,nombre,apellido,comision):
 

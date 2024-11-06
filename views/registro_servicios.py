@@ -3,6 +3,7 @@ import tkinter as tk
 from tkinter import ttk
 from models.servicio import Servicio
 from models.Observer.Sujeto import Sujeto
+from tkcalendar import DateEntry
 
 class RegistroServicio(tk.Frame,Sujeto):
     def __init__(self, master, sistema):
@@ -28,7 +29,7 @@ class RegistroServicio(tk.Frame,Sujeto):
         
         
         tk.Label(self, text="Fecha de servicio:").grid(row=3, column=0)
-        self.fecha_servicio_entry = tk.Entry(self)
+        self.fecha_servicio_entry = DateEntry(self, width=12, background="darkblue", foreground="white", borderwidth=2)
         self.fecha_servicio_entry.grid(row=3, column=1)
         
         tk.Label(self, text="Costo:").grid(row=4, column=0)
@@ -49,7 +50,7 @@ class RegistroServicio(tk.Frame,Sujeto):
         id_servicio = self.id_servicio_entry.get()
         auto = self.id_auto_servicio_combobox.get()
         tipo_servicio = self.tipo_combobox.get()
-        fecha = self.fecha_servicio_entry.get()
+        fecha = self.fecha_servicio_entry.get_date()
         costo = self.costo_servicio_entry.get()
         
         nuevo_servicio = Servicio(id_servicio, auto, tipo_servicio, fecha, costo)
@@ -62,7 +63,7 @@ class RegistroServicio(tk.Frame,Sujeto):
         self.id_servicio_entry.delete(0, tk.END)
         self.id_auto_servicio_combobox.set("")
         self.tipo_combobox.set("mantenimiento")
-        self.fecha_servicio_entry.delete(0, tk.END)
+        self.fecha_servicio_entry.set_date("")
         self.costo_servicio_entry.delete(0, tk.END)
 
         
