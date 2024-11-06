@@ -43,6 +43,25 @@ class Database():
                 FOREIGN KEY(cliente_id) REFERENCES clientes(id_cliente)
             )
         ''')
+
+        self.cursor.execute('''
+            CREATE TABLE IF NOT EXISTS vendedores (
+                            id_vendedor INTEGER PRIMARY KEY,
+                            nombre TEXT,
+                            apellido TEXT,
+                            comision FLOAT(5,2)
+                            )
+            ''')
+        
+        self.cursor.execute('''
+            CREATE TABLE IF NOT EXISTS ventas (
+                            id_venta INTEGER PRIMARY KEY,
+                            id_auto INTEGER,
+                            id_cliente INTEGER,
+                            fecha DATE,
+                            id_vendedor INTEGER
+                            )
+            ''')
         
         self.connection.commit()
     
@@ -73,6 +92,34 @@ class Database():
         
         self.cursor.execute("SELECT vin,marca,modelo,anio,precio,estado,cliente_id FROM autos")
         return self.cursor.fetchall()
+    
+    def agregar_vendedor(self,id_cliente,nombre,apellido,comision):
+
+        self.cursor.execute('''INSERT INTO vendedores (id_vendedor,nombre,apellido,comision) 
+                            VALUES(?,?,?,?)
+                            ''',(id_cliente,nombre,apellido,comision))
+        self.connection.commit()
+
+    
+    def get_vendedores(self):
+        
+        self.cursor.execute("SELECT id_vendedor,nombre,apellido,comision FROM vendedores")
+        return self.cursor.fetchall()
+    
+    
+    def agregar_venta(self,id_venta,id_auto,id_cliente,fecha,id_vendedor):
+
+        self.cursor.execute('''INSERT INTO ventas (id_venta,id_auto,id_cliente,fecha,id_vendedor) 
+                            VALUES(?,?,?,?,?)
+                            ''',(id_venta,id_auto,id_cliente,fecha,id_vendedor))
+        self.connection.commit()
+
+    
+    def get_ventas(self):
+        
+        self.cursor.execute("SELECT id_venta,id_auto,id_cliente,fecha,id_vendedor FROM ventas")
+        return self.cursor.fetchall()
+
     
     def close(self):
         self.connection.close()
