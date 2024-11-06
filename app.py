@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import ttk
+from tkinter import simpledialog
 from models.gestorSistema import GestorSistema
 from views.listado_clientes import ListadoClientes
 from views.registro_clientes import RegistroCliente
@@ -13,6 +14,9 @@ from views.registro_vendedores import RegistroVendedor
 
 from views.listado_ventas import ListadoVentas
 from views.registro_ventas import RegistroVenta
+
+from views.listado_servicios import ListadoServicios
+from views.registro_servicios import RegistroServicio
 
 class App:
     def __init__(self,root):
@@ -49,6 +53,11 @@ class App:
         venta_menu = tk.Menu(menu_bar, tearoff=0)
         venta_menu.add_command(label="Registrar Venta", command=self.abrir_registro_venta)
         menu_bar.add_cascade(label="Ventas", menu=venta_menu)
+        
+        # Menú Servicios
+        servicios_menu = tk.Menu(menu_bar, tearoff=0)
+        servicios_menu.add_command(label="Registrar Servicio", command=self.abrir_registro_servicios)
+        menu_bar.add_cascade(label="Servicios", menu=servicios_menu)
 
 
     def mostrar_frame(self, frame):
@@ -113,6 +122,22 @@ class App:
 
         self.mostrar_frame(self.registro_venta_frame)
         self.mostrar_frame(self.listado_ventas_frame)
+        
+        
+    def abrir_registro_servicios(self):
+        self.registro_servicios_frame = RegistroServicio(self.root, self.sistema)
+        self.registro_servicios_frame.grid(row=0, column=0, sticky="nsew")
+
+         
+        self.listado_servicios_frame = ListadoServicios(self.root, self.sistema)
+        self.listado_servicios_frame.grid(row=10, column=0, sticky="nsew")
+        
+        self.registro_servicios_frame.suscribir(self.listado_servicios_frame)
+
+
+        self.mostrar_frame(self.registro_servicios_frame)
+        self.mostrar_frame(self.listado_servicios_frame)
+        
         
 
 

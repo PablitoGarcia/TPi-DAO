@@ -9,6 +9,8 @@ class ListadoAutos(tk.Frame, Suscriptor):
         self.sistema = sistema
         #self.title("Listado de Autos")
         
+        
+        
         # Configuración del Treeview
         self.autos_tree = ttk.Treeview(self, columns=("Vin", "Marca", "Modelo", "Anio", "Precio","Estado","ID Cliente"), show="headings")
         self.autos_tree.heading("Vin", text="Vin")

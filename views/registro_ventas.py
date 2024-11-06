@@ -60,10 +60,10 @@ class RegistroVenta(tk.Frame,Sujeto):
         
         # Limpiar entradas
         self.id_venta_entry.delete(0, tk.END)
-        self.id_auto_venta_combobox.delete(0, tk.END)
-        self.id_cliente_venta_combobox.delete(0, tk.END)
+        self.id_auto_venta_combobox.set("")
+        self.id_cliente_venta_combobox.set("")
         self.fecha_venta_entry.delete(0, tk.END)
-        self.id_vendedor_venta_combobox.delete(0, tk.END)
+        self.id_vendedor_venta_combobox.set("")
 
         
     #cargar autos en combobox

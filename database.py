@@ -59,7 +59,22 @@ class Database():
                             id_auto INTEGER,
                             id_cliente INTEGER,
                             fecha DATE,
-                            id_vendedor INTEGER
+                            id_vendedor INTEGER,
+                            FOREIGN KEY(id_auto) REFERENCES autos(vin),
+                            FOREIGN KEY(id_cliente) REFERENCES clientes(id_clientes),
+                            FOREIGN KEY(id_vendedor) REFERENCES vendedores(id_vendedor)
+                            )
+            ''')
+        
+        
+        self.cursor.execute('''
+            CREATE TABLE IF NOT EXISTS servicios (
+                            id_servicio INTEGER PRIMARY KEY,
+                            id_auto INTEGER, 
+                            tipo_servicio TEXT, 
+                            fecha DATETIME, 
+                            costo REAL,
+                            FOREIGN KEY(id_auto) REFERENCES autos(vin)
                             )
             ''')
         
@@ -118,6 +133,31 @@ class Database():
     def get_ventas(self):
         
         self.cursor.execute("SELECT id_venta,id_auto,id_cliente,fecha,id_vendedor FROM ventas")
+        return self.cursor.fetchall()
+    
+    
+    def get_ventas_cliente(self, cliente_id):
+        self.cursor.execute("SELECT id_venta,id_auto,id_cliente,fecha,id_vendedor FROM ventas WHERE id_cliente = ?", (cliente_id,))
+        return self.cursor.fetchall()
+    
+    
+    def agregar_servicio(self, id_servicio, id_auto, tipo_servicio, fecha, costo):
+        
+        self.cursor.execute('''INSERT INTO servicios ( id_servicio, id_auto, tipo_servicio, fecha, costo) 
+                            VALUES(?,?,?,?,?)
+                            ''',( id_servicio, id_auto, tipo_servicio, fecha, costo))
+        self.connection.commit()
+        
+    
+    def get_servicios(self):
+        
+        self.cursor.execute("SELECT id_servicio, id_auto, tipo_servicio, fecha, costo FROM servicios")
+        return self.cursor.fetchall()
+    
+    
+    def get_servicios_cliente(self, vin_auto):
+        
+        self.cursor.execute("SELECT id_servicio, id_auto, tipo_servicio, fecha, costo FROM servicios  WHERE id_auto = ?", (vin_auto,))
         return self.cursor.fetchall()
 
     

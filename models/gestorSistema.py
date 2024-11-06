@@ -3,6 +3,7 @@ from models.cliente import Cliente
 from models.cliente import Vendedor
 from models.venta import Venta
 from models.auto import Auto
+from models.servicio import Servicio
 from models.singleton import Singleton
 
 class GestorSistema:
@@ -65,6 +66,26 @@ class GestorSistema:
             
         
 
-    def listar_ventas(self):
-        return self.db.get_ventas()
+    def listar_ventas(self, id_cliente=None):
+        if id_cliente is None:
+            return self.db.get_ventas()
+        else:
+            return self.db.get_ventas_cliente(id_cliente)
+        
+        
+        
+    def registrar_servicio(self, servicio:Servicio):
+        
+        try:
+            self.db.agregar_servicio(servicio.id_servicio, servicio.id_auto, servicio.tipo_servicio, servicio.fecha, servicio.costo)
+            return f"Servicio registrado con éxito."
+        except Exception as e:
+            return f"Error: {e}"
+        
+     
+    def listar_servicios(self, id_auto=None):
+        if id_auto is None:
+            return self.db.get_servicios()
+        else:
+            return self.db.get_servicios_cliente(id_auto)
     
