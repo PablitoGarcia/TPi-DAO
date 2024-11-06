@@ -65,8 +65,10 @@ class RegistroVenta(tk.Frame,Sujeto):
         self.id_venta_entry.delete(0, tk.END)
         self.id_auto_venta_combobox.set("")
         self.id_cliente_venta_combobox.set("")
-        self.fecha_venta_entry.set_date("")
+        #self.fecha_venta_entry.set_date("")
         self.id_vendedor_venta_combobox.set("")
+       
+        self.cargar_autos()
 
         
     #cargar autos en combobox
