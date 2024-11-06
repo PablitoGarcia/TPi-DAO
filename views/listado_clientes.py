@@ -1,10 +1,10 @@
 # views/listado_clientes.py
 import tkinter as tk
 from tkinter import ttk
+from models.Observer.Suscriptor import Suscriptor
 
-class ListadoClientes(tk.Frame):
+class ListadoClientes(tk.Frame, Suscriptor):
     def __init__(self, master, sistema):
-        print(master)
         super().__init__(master)
         self.sistema = sistema
         #self.title("Listado de Clientes")
@@ -18,6 +18,7 @@ class ListadoClientes(tk.Frame):
         self.clientes_tree.heading("Teléfono", text="Teléfono")
         self.clientes_tree.grid(row=0, column=0, columnspan=2)
         
+        
         self.cargar_clientes()
     
     def cargar_clientes(self):
@@ -29,3 +30,6 @@ class ListadoClientes(tk.Frame):
         clientes = self.sistema.listar_clientes()
         for cliente in clientes:
             self.clientes_tree.insert("", "end", values=cliente)
+    
+    def refrescar(self):
+        self.cargar_clientes()

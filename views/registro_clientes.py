@@ -1,10 +1,12 @@
 # views/registro_cliente.py
 import tkinter as tk
 from models.cliente import Cliente
+from models.Observer.Sujeto import Sujeto
 
-class RegistroCliente(tk.Frame):
+class RegistroCliente(tk.Frame,Sujeto):
     def __init__(self, master, sistema):
         super().__init__(master)
+        Sujeto.__init__(self)
         self.sistema = sistema
         self.master = master
         #self.title("Registrar Cliente")
@@ -51,6 +53,7 @@ class RegistroCliente(tk.Frame):
         mensaje = self.sistema.registrar_cliente(nuevo_cliente)
         self.message_label.config(text=mensaje)
 
+        self.notificar()
         
         # Limpiar entradas
         self.id_cliente_entry.delete(0, tk.END)
@@ -59,5 +62,4 @@ class RegistroCliente(tk.Frame):
         self.direccion_cliente_entry.delete(0, tk.END)
         self.telefono_cliente_entry.delete(0, tk.END)
 
-        self.master.listar_clientes()
         

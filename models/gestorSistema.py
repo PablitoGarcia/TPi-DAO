@@ -6,6 +6,7 @@ from models.singleton import Singleton
 class GestorSistema:
     def __init__(self):
         self.db = Database()
+       
     
     #CLIENTES
     
@@ -16,7 +17,9 @@ class GestorSistema:
             return f"Cliente registrado con éxito."
         except Exception as e:
             return f"Error: {e}"
-    
+            
+        
+
     def listar_clientes(self):
         return self.db.get_clientes()
     

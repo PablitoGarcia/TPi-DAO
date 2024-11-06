@@ -42,7 +42,8 @@ class App:
          
         self.listado_frame = ListadoClientes(self.root, self.sistema)
         self.listado_frame.grid(row=10, column=0, sticky="nsew")
-
+        
+        self.registro_frame.suscribir(self.listado_frame)
         self.mostrar_frame(self.registro_frame)
         self.mostrar_frame(self.listado_frame)
 
