@@ -1,12 +1,13 @@
 # views/listado_autos.py
 import tkinter as tk
 from tkinter import ttk
+from models.Observer.Suscriptor import Suscriptor
 
-class ListadoAutos(tk.Toplevel):
+class ListadoAutos(tk.Frame, Suscriptor):
     def __init__(self, master, sistema):
         super().__init__(master)
         self.sistema = sistema
-        self.title("Listado de Autos")
+        #self.title("Listado de Autos")
         
         # Configuración del Treeview
         self.autos_tree = ttk.Treeview(self, columns=("Vin", "Marca", "Modelo", "Anio", "Precio","Estado","ID Cliente"), show="headings")
@@ -30,3 +31,6 @@ class ListadoAutos(tk.Toplevel):
         autos = self.sistema.listar_autos()
         for cliente in autos:
             self.autos_tree.insert("", "end", values=cliente)
+    
+    def refrescar(self):
+        self.cargar_autos()

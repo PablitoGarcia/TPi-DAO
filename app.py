@@ -26,37 +26,45 @@ class App:
         # Menú Clientes
         clientes_menu = tk.Menu(menu_bar, tearoff=0)
         clientes_menu.add_command(label="Registrar Cliente", command=self.abrir_registro_cliente)
-        clientes_menu.add_command(label="Listar Clientes", command=self.abrir_listado_clientes)
         menu_bar.add_cascade(label="Clientes", menu=clientes_menu)
 
         # Menú Autos
         clientes_menu = tk.Menu(menu_bar, tearoff=0)
         clientes_menu.add_command(label="Registrar Auto", command=self.abrir_registro_auto)
-        clientes_menu.add_command(label="Listar Autos", command=self.abrir_listado_autos)
         menu_bar.add_cascade(label="Autos", menu=clientes_menu)
-
-    def abrir_registro_cliente(self):
-        self.registro_frame = RegistroCliente(self.root, self.sistema)
-        self.registro_frame.grid(row=0, column=0, sticky="nsew")
-
-         
-        self.listado_frame = ListadoClientes(self.root, self.sistema)
-        self.listado_frame.grid(row=10, column=0, sticky="nsew")
-        
-        self.registro_frame.suscribir(self.listado_frame)
-        self.mostrar_frame(self.registro_frame)
-        self.mostrar_frame(self.listado_frame)
 
     def mostrar_frame(self, frame):
         frame.tkraise()
+
+    def abrir_registro_cliente(self):
+        self.registro_cliente_frame = RegistroCliente(self.root, self.sistema)
+        self.registro_cliente_frame.grid(row=0, column=0, sticky="nsew")
+
+         
+        self.listado_clientes_frame = ListadoClientes(self.root, self.sistema)
+        self.listado_clientes_frame.grid(row=10, column=0, sticky="nsew")
         
-    def abrir_listado_clientes(self):
-        ListadoClientes(self.root, self.sistema)
+        self.registro_cliente_frame.suscribir(self.listado_clientes_frame)
+
+
+        self.mostrar_frame(self.registro_cliente_frame)
+        self.mostrar_frame(self.listado_clientes_frame)
+
+    
 
     def abrir_registro_auto(self):
-        RegistroAuto(self.root,self.sistema)
-    
-    def abrir_listado_autos(self):
-        ListadoAutos(self.root, self.sistema)
+        self.registro_auto_frame = RegistroAuto(self.root,self.sistema)
+        self.registro_auto_frame.grid(row=0, column=0, sticky="nsew")
+
+         
+        self.listado_auto_frame = ListadoAutos(self.root, self.sistema)
+        self.listado_auto_frame.grid(row=10, column=0, sticky="nsew")
+        
+        self.registro_auto_frame.suscribir(self.listado_auto_frame)
+
+
+        self.mostrar_frame(self.registro_auto_frame)
+        self.mostrar_frame(self.listado_auto_frame)
+        
 
 

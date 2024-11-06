@@ -2,12 +2,14 @@
 import tkinter as tk
 from tkinter import ttk
 from models.auto import Auto
+from models.Observer.Sujeto import Sujeto
 
-class RegistroAuto(tk.Toplevel):
+class RegistroAuto(tk.Frame,Sujeto):
     def __init__(self, master, sistema):
         super().__init__(master)
+        Sujeto.__init__(self)
         self.sistema = sistema
-        self.title("Registrar Auto")
+        
         
         # Campos de entrada vin,marca,modelo,anio,precio,estado,cliente_id
         tk.Label(self, text="VIN:").grid(row=0, column=0)
@@ -61,6 +63,8 @@ class RegistroAuto(tk.Toplevel):
         mensaje = self.sistema.registrar_auto(nuevo_auto)
         self.message_label.config(text=mensaje)
         
+
+        self.notificar()
         # Limpiar entradas
         self.vin_auto_entry.delete(0, tk.END)
         self.marca_auto_entry.delete(0, tk.END)
