@@ -170,6 +170,22 @@ class Database():
         self.cursor.execute("SELECT id_servicio, id_auto, tipo_servicio, fecha, costo FROM servicios  WHERE id_auto = ?", (vin_auto,))
         return self.cursor.fetchall()
 
+    # Listar todas las ventas realizadas en un periodo de tiempo.
+    def get_ventas_xperiodo(self,fecha_inicio,fecha_fin):
+        self.cursor.execute(
+            "SELECT id_venta,id_auto,id_cliente,fecha,id_vendedor FROM ventas WHERE fecha between ? and ?", (fecha_inicio,fecha_fin)
+            )
+        
+        return self.cursor.fetchall()
+    
+    def get_ingresos_ventas(self):
+        self.cursor.execute("SELECT a.modelo, COUNT(a.vin), SUM(a.precio) FROM ventas v JOIN autos a ON v.id_auto = a.vin GROUP BY a.modelo")       
+        return self.cursor.fetchall()
+
+    def get_ingresos_por_servicios(self):
+        self.cursor.execute("SELECT tipo_servicio, COUNT(id_servicio), SUM(costo) FROM servicios GROUP BY tipo_servicio")
+        return self.cursor.fetchall()
+    
     
     def close(self):
         self.connection.close()

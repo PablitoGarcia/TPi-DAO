@@ -18,6 +18,8 @@ from views.registro_ventas import RegistroVenta
 from views.listado_servicios import ListadoServicios
 from views.registro_servicios import RegistroServicio
 
+from views.Reports.reporte_ingresosTotales import ListadoIngresos
+
 class App:
     def __init__(self,root):
         self.root = root 
@@ -58,6 +60,11 @@ class App:
         servicios_menu = tk.Menu(menu_bar, tearoff=0)
         servicios_menu.add_command(label="Registrar Servicio", command=self.abrir_registro_servicios)
         menu_bar.add_cascade(label="Servicios", menu=servicios_menu)
+
+        # Reportes 
+        servicios_menu = tk.Menu(menu_bar, tearoff=0)
+        servicios_menu.add_command(label="Ingresos Totales", command=self.abrir_reporte_ingresosTotales)
+        menu_bar.add_cascade(label="Reportes", menu=servicios_menu)
 
 
     def mostrar_frame(self, frame):
@@ -137,6 +144,12 @@ class App:
 
         self.mostrar_frame(self.registro_servicios_frame)
         self.mostrar_frame(self.listado_servicios_frame)
+    
+    def abrir_reporte_ingresosTotales(self):
+        self.reporte_ingresosTotales_frame = ListadoIngresos(self.root, self.sistema)
+        self.reporte_ingresosTotales_frame.grid(row=0, column=0, sticky="nsew")
+        
+        self.mostrar_frame(self.reporte_ingresosTotales_frame)
         
         
 

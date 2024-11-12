@@ -78,7 +78,14 @@ class GestorSistema:
         else:
             return self.db.get_ventas_cliente(id_cliente)
         
-        
+    def reporte_ventas_xperiodo(self,fecha_inicio,fecha_fin):
+        return self.db.get_ventas_xperiodo(fecha_inicio,fecha_fin)
+    
+    def reporte_ingreso_ventas(self):
+        return self.db.get_ingresos_ventas()
+    
+    def reporte_ingreso_servicios(self):
+        return self.db.get_ingresos_por_servicios()
         
     def registrar_servicio(self, servicio:Servicio):
         
