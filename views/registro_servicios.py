@@ -20,7 +20,7 @@ class RegistroServicio(tk.Frame,Sujeto):
         tk.Label(self, text="Auto:").grid(row=1, column=0)
         self.id_auto_servicio_combobox = ttk.Combobox(self, state="readonly")
         self.id_auto_servicio_combobox.grid(row=1, column=1)
-        self.cargar_autos() 
+        self.cargar_autos_vendidos() 
         
         tk.Label(self, text="Tipo de servicio:").grid(row=2, column=0)
         self.tipo_combobox = ttk.Combobox(self,values=["Mantenimiento", "Reparacion"], state="readonly")
@@ -68,9 +68,9 @@ class RegistroServicio(tk.Frame,Sujeto):
 
         
     #cargar autos en combobox
-    def cargar_autos(self):
+    def cargar_autos_vendidos(self):
         # Obtiene la lista de autos y la carga en el ComboBox de id_autos
-        autos = self.sistema.listar_autos()
+        autos = self.sistema.listar_autos_vendidos()
         auto_ids = [auto[0] for auto in autos]  # Obtener solo los IDs de los autos
         self.id_auto_servicio_combobox['values'] = auto_ids
 

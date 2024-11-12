@@ -42,6 +42,9 @@ class GestorSistema:
     def listar_autos_no_vendidos(self):
         return self.db.get_autos_no_vendidos()
     
+    def listar_autos_vendidos(self):
+        return self.db.get_autos_vendidos()
+    
     def vender_auto(self, id_clinete, id_auto):
         self.db.vender_auto(id_clinete, id_auto)
 

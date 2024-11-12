@@ -30,7 +30,7 @@ class Database():
                             )
             ''')
         
-        self.cursor.execute("DROP TABLE autos")
+
         self.cursor.execute('''
             CREATE TABLE IF NOT EXISTS autos (
                 vin INTEGER PRIMARY KEY,
@@ -111,6 +111,10 @@ class Database():
     
     def get_autos_no_vendidos(self):
         self.cursor.execute("SELECT vin,marca,modelo,anio,precio,estado,cliente_id FROM autos WHERE cliente_id IS NULL")
+        return self.cursor.fetchall()
+    
+    def get_autos_vendidos(self):
+        self.cursor.execute("SELECT vin,marca,modelo,anio,precio,estado,cliente_id FROM autos WHERE cliente_id IS NOT NULL")
         return self.cursor.fetchall()
         
     def vender_auto(self, cliente_id, id_auto):
