@@ -37,10 +37,6 @@ class RegistroAuto(tk.Frame,Sujeto):
         self.estado_combobox.grid(row=5, column=1)
         self.estado_combobox.set("Nuevo")  # Valor por defecto
 
-        tk.Label(self, text="ID Cliente:").grid(row=6, column=0)
-        self.cliente_id_combobox = ttk.Combobox(self, state="readonly")
-        self.cliente_id_combobox.grid(row=6, column=1)
-        self.cargar_clientes() 
         
         
         # Botón de registrar
@@ -57,9 +53,8 @@ class RegistroAuto(tk.Frame,Sujeto):
         anio = self.anio_auto_entry.get()
         precio = self.precio_auto_entry.get()
         estado = self.estado_combobox.get()
-        idCliente = self.cliente_id_combobox.get() or None
         
-        nuevo_auto = Auto(vin,marca,modelo,int(anio),float(precio),estado,idCliente)
+        nuevo_auto = Auto(vin,marca,modelo,int(anio),float(precio),estado)
         mensaje = self.sistema.registrar_auto(nuevo_auto)
         self.message_label.config(text=mensaje)
         
@@ -72,7 +67,6 @@ class RegistroAuto(tk.Frame,Sujeto):
         self.anio_auto_entry.delete(0, tk.END)
         self.precio_auto_entry.delete(0, tk.END)
         self.estado_combobox.set("nuevo")
-        self.cliente_id_combobox.set("")
 
     #cargar clientes en combobox
     def cargar_clientes(self):

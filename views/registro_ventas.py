@@ -54,7 +54,7 @@ class RegistroVenta(tk.Frame,Sujeto):
         vendedor = self.id_vendedor_venta_combobox.get()
         
         nuevo_venta = Venta(id_venta, auto, cliente, fecha, vendedor)
-        self.sistema.vender_auto(auto)
+        self.sistema.vender_auto(cliente, auto)
         
         mensaje = self.sistema.registrar_venta(nuevo_venta)
         self.message_label.config(text=mensaje)

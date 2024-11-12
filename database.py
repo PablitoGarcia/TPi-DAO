@@ -30,7 +30,7 @@ class Database():
                             )
             ''')
         
-        
+        self.cursor.execute("DROP TABLE autos")
         self.cursor.execute('''
             CREATE TABLE IF NOT EXISTS autos (
                 vin INTEGER PRIMARY KEY,
@@ -39,8 +39,7 @@ class Database():
                 anio INTEGER,
                 precio REAL,
                 estado TEXT,
-                cliente_id TEXT,
-                estado_venta BOOLEAN NOT NULL DEFAULT FALSE,
+                cliente_id INTEGER,
                 FOREIGN KEY(cliente_id) REFERENCES clientes(id_cliente)
             )
         ''')
@@ -79,7 +78,6 @@ class Database():
                             )
             ''')
         
-        
         self.connection.commit()
     
     def agregar_cliente(self,id_cliente,nombre,apellido,direccion,telefono):
@@ -112,11 +110,12 @@ class Database():
     
     
     def get_autos_no_vendidos(self):
-        self.cursor.execute("SELECT vin,marca,modelo,anio,precio,estado,cliente_id FROM autos WHERE estado_venta = 0")
+        self.cursor.execute("SELECT vin,marca,modelo,anio,precio,estado,cliente_id FROM autos WHERE cliente_id IS NULL")
         return self.cursor.fetchall()
         
-    def vender_auto(self, id_auto):
-        self.cursor.execute("UPDATE autos SET estado_venta = 1 WHERE vin = ?", (id_auto,))
+    def vender_auto(self, cliente_id, id_auto):
+        self.cursor.execute("UPDATE autos SET cliente_id = ? WHERE vin = ?", (cliente_id, id_auto,))
+
     
     def agregar_vendedor(self,id_cliente,nombre,apellido,comision):
 
