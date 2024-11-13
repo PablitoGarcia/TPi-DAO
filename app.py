@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
 from tkinter import simpledialog
+from tkinter import messagebox
 from models.gestorSistema import GestorSistema
 from views.listado_clientes import ListadoClientes
 from views.registro_clientes import RegistroCliente
@@ -18,9 +19,10 @@ from views.registro_ventas import RegistroVenta
 from views.listado_servicios import ListadoServicios
 from views.registro_servicios import RegistroServicio
 
-from views.reports.reporte_ingresos_totales import ReporteIngresosTotales
-from views.reports.reporte_ventasxmarcas import ReporteVentasxMarcas
-from views.reports.reporte_ventasxperiodo import ReporteVentasxPeriodo
+from views.Reports.reporte_ingresos_totales import ReporteIngresosTotales
+from views.Reports.reporte_ventasxmarcas import ReporteVentasxMarcas
+from views.Reports.reporte_ventasxperiodo import ReporteVentasxPeriodo
+from views.Reports.reporte_extra import ReporteExtra
 
 class App:
     def __init__(self,root):
@@ -68,7 +70,11 @@ class App:
         servicios_menu.add_command(label="Autos vendidos por Periodo", command=self.abrir_reporte_ventasxperiodo)
         servicios_menu.add_command(label="Ingresos Totales", command=self.abrir_reporte_ingresosTotales)
         servicios_menu.add_command(label="Autos Mas vendidos por Marca", command=self.abrir_reporte_ventasxmarca)
+        servicios_menu.add_command(label="Ventas por marca e ingresos mensuales", command=self.abrir_reporte_extra)
+
         menu_bar.add_cascade(label="Reportes", menu=servicios_menu)
+
+        self.root.protocol("WM_DELETE_WINDOW", self.cerrar_aplicacion)
 
 
     def mostrar_frame(self, frame):
@@ -185,8 +191,28 @@ class App:
 
         self.mostrar_frame(self.reporte_ventasxperiodo_frame)
         
+    def abrir_reporte_extra(self):
+        
+        self.limpiar_frame()
+        
+        self.reporte_extra_frame = ReporteExtra(self.root, self.sistema)
+        self.reporte_extra_frame.grid(row=5, column=0, sticky="nsew")
+
+        self.mostrar_frame(self.reporte_extra_frame)
+        
+    
+        
     def limpiar_frame(self):
         for child in self.root.winfo_children():
             if not isinstance(child, tk.Menu):
                 child.destroy()
+                
+    def cerrar_aplicacion(self):
+        respuesta = messagebox.askyesno("Confirmar", "¿Realmente deseas cerrar la aplicación?")
+        if respuesta:
+            self.sistema.cerrar_bd()
+            self.root.quit()  # Detiene el ciclo de eventos de Tkinter
+            self.root.destroy()  # Destruye la ventana principal
+        else:
+            pass 
 

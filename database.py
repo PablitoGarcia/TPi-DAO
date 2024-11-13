@@ -198,6 +198,14 @@ class Database():
         self.cursor.execute("SELECT a.marca, COUNT(*) as cantidad_ventas FROM ventas v JOIN autos a ON v.id_auto = a.vin GROUP BY a.marca ORDER BY cantidad_ventas DESC")       
         return self.cursor.fetchall()
     
+    def get_ventas_por_marca(self):
+        self.cursor.execute("SELECT marca, COUNT(*) FROM autos WHERE cliente_id IS NOT NULL GROUP BY marca")
+        return self.cursor.fetchall()
+    
+    def get_ingresos_mensuales(self):
+        self.cursor.execute("SELECT strftime('%Y-%m', v.fecha) AS mes, SUM(a.precio) FROM autos a JOIN ventas v ON a.vin = v.id_auto WHERE a.cliente_id IS NOT NULL GROUP BY mes ORDER BY mes")
+        return self.cursor.fetchall()
+    
     
     def close(self):
         self.connection.close()

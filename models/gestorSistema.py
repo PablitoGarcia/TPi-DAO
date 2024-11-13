@@ -92,6 +92,12 @@ class GestorSistema:
     
     def reporte_autos_vendidos_marca(self):
         return self.db.get_autos_vendidos_marca()
+    
+    def reporte_ventas_por_marca(self):
+        return self.db.get_ventas_por_marca()
+    
+    def reporte_ingresos_mensuales(self):
+        return self.db.get_ingresos_mensuales()
         
     def registrar_servicio(self, servicio:Servicio):
         
@@ -107,4 +113,8 @@ class GestorSistema:
             return self.db.get_servicios()
         else:
             return self.db.get_servicios_cliente(id_auto)
+        
+    def cerrar_bd(self):
+        self.db.close()
+    
     
