@@ -25,8 +25,8 @@ class ReporteVentasxMarcas(tk.Frame):
 
         encabezados = ["Marca","Cantidad"]
 
-        reporte = ReportePDF("Reporte de Ingresos Totales", encabezados, datos_ventasxmarca)
+        reporte = ReportePDF("Reporte de Autos mas vendidos por Marca ", encabezados, datos_ventasxmarca)
         nombreReportefile = "Reporte-VentasxMarcas-" + datetime.now().strftime('%Y-%m-%d_%H-%M-%S') + ".pdf"
         reporte.generar_reporte(nombreReportefile)
 
-        messagebox.showinfo("Éxito", f"Reporte de ingresos generado exitosamente:{nombreReportefile}")
+        messagebox.showinfo("Éxito", f"Reporte generado exitosamente:{nombreReportefile}")

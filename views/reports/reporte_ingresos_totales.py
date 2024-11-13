@@ -38,4 +38,4 @@ class ReporteIngresosTotales(tk.Frame):
         nombreReportefile = "Reporte-IngresosTotales-" + datetime.now().strftime('%Y-%m-%d_%H-%M-%S') + ".pdf"
         reporte.generar_reporte(nombreReportefile)
 
-        messagebox.showinfo("Éxito", f"Reporte de ingresos generado exitosamente:{nombreReportefile}")
+        messagebox.showinfo("Éxito", f"Reporte generado exitosamente:{nombreReportefile}")

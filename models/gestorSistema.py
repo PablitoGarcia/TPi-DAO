@@ -6,9 +6,12 @@ from models.auto import Auto
 from models.servicio import Servicio
 from models.singleton import Singleton
 
-class GestorSistema:
+class GestorSistema(Singleton):
+    
     def __init__(self):
-        self.db = Database()
+        if not hasattr(self, "initialized"):  # Esto evita la reinicialización
+            self.initialized = True
+        self.db = Database.getInstance()
        
     
     #CLIENTES

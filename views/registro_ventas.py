@@ -53,8 +53,13 @@ class RegistroVenta(tk.Frame,Sujeto):
         fecha = self.fecha_venta_entry.get_date()
         vendedor = self.id_vendedor_venta_combobox.get()
         
-        nuevo_venta = Venta(id_venta, auto, cliente, fecha, vendedor)
-        self.sistema.vender_auto(cliente, auto)
+        #extraigo id
+        auto_id = auto.split(" - ")[0]
+        cliente_id = cliente.split(" - ")[0]
+        vendedor_id = vendedor.split(" - ")[0]
+
+        nuevo_venta = Venta(id_venta,auto_id , cliente_id, fecha, vendedor_id)
+        self.sistema.vender_auto(cliente_id, auto_id)
         
         mensaje = self.sistema.registrar_venta(nuevo_venta)
         self.message_label.config(text=mensaje)
@@ -73,21 +78,20 @@ class RegistroVenta(tk.Frame,Sujeto):
         
     #cargar autos en combobox
     def cargar_autos(self):
-        # Obtiene la lista de autos y la carga en el ComboBox de id_autos
         autos = self.sistema.listar_autos_no_vendidos()
-        auto_ids = [auto[0] for auto in autos]  # Obtener solo los IDs de los autos
-        self.id_auto_venta_combobox['values'] = auto_ids
+        auto_descriptions = [f"{auto[0]} - {auto[1]} ({auto[2]})" for auto in autos]  # ID - Modelo (Año)
+        self.id_auto_venta_combobox['values'] = auto_descriptions
+
 
     #cargar clientes en combobox
     def cargar_clientes(self):
         # Obtiene la lista de clientes y la carga en el ComboBox de cliente_id
         clientes = self.sistema.listar_clientes()
-        cliente_ids = [cliente[0] for cliente in clientes]  # Obtener solo los IDs de los clientes
-        self.id_cliente_venta_combobox['values'] = cliente_ids
-
+        cliente_descriptions = [f"{cliente[0]} - {cliente[1]} {cliente[2]}" for cliente in clientes]  # ID - Nombre Apellido
+        self.id_cliente_venta_combobox['values'] = cliente_descriptions
      #cargar clientes en combobox
     def cargar_vendedores(self):
         # Obtiene la lista de vendedores y la carga en el ComboBox de id_vendedor
         vendedores = self.sistema.listar_vendedores()
-        vendedor_ids = [vendedor[0] for vendedor in vendedores]  # Obtener solo los IDs de los vendedores
-        self.id_vendedor_venta_combobox['values'] = vendedor_ids
+        vendedor_descriptions = [f"{vendedor[0]} - {vendedor[1]} {vendedor[2]}" for vendedor in vendedores]  # ID - Nombre Apellido
+        self.id_vendedor_venta_combobox['values'] = vendedor_descriptions

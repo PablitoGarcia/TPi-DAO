@@ -40,9 +40,9 @@ class ReporteVentasxPeriodo(tk.Frame):
         # Obtener los datos de ingresos
         datos_ventasxperiodo = self.sistema.reporte_ventas_xperiodo(fecha_inicio,fecha_fin)
 
-        encabezados = ["ID Venta", "Auto", "Cliente", "Fecha", "Vendedor"]
+        encabezados = ["ID", "Auto", "Cliente", "Fecha", "Vendedor"]
         reporte = ReportePDF(f"Reporte de Ventas {fecha_inicio} a {fecha_fin}", encabezados, datos_ventasxperiodo)
         nombreReportefile = "Reporte-ventasxperiodo-" + datetime.now().strftime('%Y-%m-%d_%H-%M-%S') + ".pdf"
         reporte.generar_reporte(nombreReportefile)
 
-        messagebox.showinfo("Éxito", f"Reporte de ingresos generado exitosamente:{nombreReportefile}")
+        messagebox.showinfo("Éxito", f"Reporte generado exitosamente:{nombreReportefile}")

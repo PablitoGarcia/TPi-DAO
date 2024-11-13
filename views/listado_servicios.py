@@ -43,7 +43,8 @@ class ListadoServicios(tk.Frame):
 
     def filtrar_servicios(self, event=None):
         # Obtener el ID del cliente desde el ComboBox
-        id_auto = self.combo_auto.get()
+        auto = self.combo_auto.get()
+        id_auto = auto.split(" - ")[0]
         
         if id_auto:  # Si hay un ID de cliente seleccionado
             self.cargar_servicios(id_auto)
@@ -53,8 +54,8 @@ class ListadoServicios(tk.Frame):
     def cargar_autos(self):
         # Obtiene la lista de autos y la carga en el ComboBox de id_autos
         autos = self.sistema.listar_autos()
-        auto_ids = [auto[0] for auto in autos]  # Obtener solo los IDs de los autos
-        self.combo_auto['values'] = auto_ids
+        auto_descriptions = [f"{auto[0]} - {auto[1]} ({auto[2]})" for auto in autos]  # ID - Modelo (Año)
+        self.combo_auto['values'] = auto_descriptions
             
             
     def refrescar(self):

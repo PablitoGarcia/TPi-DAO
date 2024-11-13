@@ -18,11 +18,12 @@ class ReporteExtra(tk.Frame):
         self.grid_columnconfigure(0, weight=1)
         self.grid_rowconfigure(0, weight=1)
         
-        tk.Label(self, text="Reporte de Ventas por marca e ingresos mensuales").grid(row=0, column=0, pady=10, sticky="n")
+        tk.Label(self, text="Reporte con Graficos Ventas por marca e ingresos mensuales").grid(row=0, column=0, pady=10, sticky="n")
         tk.Button(self, text="Generar", command=self.generar_reporte_ventas_marca_ventas_mensuales).grid(row=1, column=0, pady=10, sticky="n")
 
     def generar_reporte_ventas_marca_ventas_mensuales(self):
-        doc = SimpleDocTemplate("reporte_extra.pdf", pagesize=A4)
+        nombreReportefile = "Reporte-Graficos-" + datetime.now().strftime('%Y-%m-%d_%H-%M-%S') + ".pdf"
+        doc = SimpleDocTemplate(nombreReportefile, pagesize=A4)
         elements = []
 
         styles = getSampleStyleSheet()
@@ -51,6 +52,7 @@ class ReporteExtra(tk.Frame):
         ax1.axis('equal')
         
         ingresos_mensuales = self.sistema.reporte_ingresos_mensuales()
+        print(ingresos_mensuales)
         mes = [row[0] for row in ingresos_mensuales]
         ingresos = [row[1] for row in ingresos_mensuales]
         

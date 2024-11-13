@@ -1,16 +1,11 @@
 import sqlite3
+from models.singleton import Singleton
 
-class Database():
-    _instance = None  # Atributo de clase para almacenar la única instancia
 
-    def __new__(cls, db_name="dbDAO.db"):
-        if cls._instance is None:
-            cls._instance = super(Database, cls).__new__(cls)
-            cls._instance._initialized = False
-        return cls._instance
+class Database(Singleton):
 
     def __init__(self, db_name="dbDAO.db"):
-        if not self._initialized:
+        if not hasattr(self, "initialized"):
             self.connection = sqlite3.connect(db_name)
             self.cursor = self.connection.cursor()
             self.create_tables()
@@ -145,12 +140,26 @@ class Database():
     
     def get_ventas(self):
         
-        self.cursor.execute("SELECT id_venta,id_auto,id_cliente,fecha,id_vendedor FROM ventas")
+        self.cursor.execute("""
+                            SELECT v.id_venta,(v.id_auto || ' - ' || a.modelo || ' - '|| a.marca),(v.id_cliente || ' - ' || c.nombre || ' - ' || c.apellido),v.fecha,(v.id_vendedor || ' - ' || ven.nombre || ' - ' || ven.apellido)
+                            FROM ventas v 
+                            JOIN autos a ON v.id_auto = a.vin
+                            JOIN clientes c ON v.id_cliente = c.id_cliente
+                            JOIN vendedores ven ON v.id_vendedor = ven.id_vendedor
+
+                            """)
         return self.cursor.fetchall()
     
     
     def get_ventas_cliente(self, cliente_id):
-        self.cursor.execute("SELECT id_venta,id_auto,id_cliente,fecha,id_vendedor FROM ventas WHERE id_cliente = ?", (cliente_id,))
+        self.cursor.execute("""
+                            SELECT v.id_venta,(v.id_auto || ' - ' || a.modelo || ' - '|| a.marca),(v.id_cliente || ' - ' || c.nombre || ' - ' || c.apellido),v.fecha,(v.id_vendedor || ' - ' || ven.nombre || ' - ' || ven.apellido)
+                            FROM ventas v 
+                            JOIN autos a ON v.id_auto = a.vin
+                            JOIN clientes c ON v.id_cliente = c.id_cliente
+                            JOIN vendedores ven ON v.id_vendedor = ven.id_vendedor
+                            WHERE v.id_cliente = ?
+                            """,(cliente_id,))
         return self.cursor.fetchall()
     
     
@@ -164,19 +173,19 @@ class Database():
     
     def get_servicios(self):
         
-        self.cursor.execute("SELECT id_servicio, id_auto, tipo_servicio, fecha, costo FROM servicios")
+        self.cursor.execute("SELECT s.id_servicio,(s.id_auto || ' - ' || a.modelo || ' - '|| a.marca), s.tipo_servicio, s.fecha, s.costo FROM servicios s JOIN autos a ON s.id_auto = a.vin")
         return self.cursor.fetchall()
     
     
     def get_servicios_cliente(self, vin_auto):
         
-        self.cursor.execute("SELECT id_servicio, id_auto, tipo_servicio, fecha, costo FROM servicios  WHERE id_auto = ?", (vin_auto,))
+        self.cursor.execute("SELECT s.id_servicio,(s.id_auto || ' - ' || a.modelo || ' - '|| a.marca), s.tipo_servicio, s.fecha, s.costo FROM servicios s JOIN autos a ON s.id_auto = a.vin  WHERE s.id_auto = ?", (vin_auto,))
         return self.cursor.fetchall()
 
     # Listar todas las ventas realizadas en un periodo de tiempo.
     def get_ventas_xperiodo(self,fecha_inicio,fecha_fin):
         self.cursor.execute("""
-            SELECT v.id_venta,(v.id_auto || a.modelo || a.marca),(v.id_cliente || c.nombre || c.apellido),v.fecha,(v.id_vendedor || ven.nombre || ven.apellido)
+            SELECT v.id_venta,(v.id_auto || ' - ' || a.modelo || ' - '|| a.marca),(v.id_cliente || ' - ' || c.nombre || ' - ' || c.apellido),v.fecha,(v.id_vendedor || ' - ' || ven.nombre || ' - ' || ven.apellido)
             FROM ventas v 
             JOIN autos a ON v.id_auto = a.vin
             JOIN clientes c ON v.id_cliente = c.id_cliente
@@ -203,7 +212,26 @@ class Database():
         return self.cursor.fetchall()
     
     def get_ingresos_mensuales(self):
-        self.cursor.execute("SELECT strftime('%Y-%m', v.fecha) AS mes, SUM(a.precio) FROM autos a JOIN ventas v ON a.vin = v.id_auto WHERE a.cliente_id IS NOT NULL GROUP BY mes ORDER BY mes")
+        self.cursor.execute("""
+                    SELECT mes, SUM(ingresos) 
+                    FROM (
+                        
+                        SELECT strftime('%Y-%m', v.fecha) AS mes, SUM(a.precio) AS ingresos
+                        FROM autos a 
+                        JOIN ventas v ON a.vin = v.id_auto 
+                        WHERE a.cliente_id IS NOT NULL 
+                        GROUP BY mes
+
+                        UNION ALL
+
+                        
+                        SELECT strftime('%Y-%m', s.fecha) AS mes, SUM(s.costo) AS ingresos
+                        FROM servicios s
+                        GROUP BY mes
+                    ) 
+                    GROUP BY mes
+                    ORDER BY mes
+                """)
         return self.cursor.fetchall()
     
     

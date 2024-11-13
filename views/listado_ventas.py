@@ -44,8 +44,9 @@ class ListadoVentas(tk.Frame):
 
     def filtrar_ventas(self, event=None):
         # Obtener el ID del cliente desde el ComboBox
-        id_cliente = self.combo_cliente.get()
-        
+        cliente = self.combo_cliente.get()
+        id_cliente = cliente.split(" - ")[0]
+    
         if id_cliente:  # Si hay un ID de cliente seleccionado
             self.cargar_ventas(id_cliente)
         else:  # Si no se selecciona cliente, mostrar todas las ventas
@@ -54,9 +55,8 @@ class ListadoVentas(tk.Frame):
     def cargar_clientes(self):
         # Obtiene la lista de clientes y la carga en el ComboBox de cliente_id
         clientes = self.sistema.listar_clientes()
-        cliente_ids = [cliente[0] for cliente in clientes]  # Obtener solo los IDs de los clientes
-        self.combo_cliente['values'] = cliente_ids
-            
+        cliente_descriptions = [f"{cliente[0]} - {cliente[1]} {cliente[2]}" for cliente in clientes]  # ID - Nombre Apellido
+        self.combo_cliente['values'] = cliente_descriptions
 
     def refrescar(self):
         self.cargar_ventas()

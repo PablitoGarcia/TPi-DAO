@@ -54,7 +54,9 @@ class RegistroServicio(tk.Frame,Sujeto):
         fecha = self.fecha_servicio_entry.get_date()
         costo = self.costo_servicio_entry.get()
         
-        nuevo_servicio = Servicio(id_servicio, auto, tipo_servicio, fecha, costo)
+        auto_id = auto.split(" - ")[0]
+
+        nuevo_servicio = Servicio(id_servicio, auto_id, tipo_servicio, fecha, costo)
         mensaje = self.sistema.registrar_servicio(nuevo_servicio)
         self.message_label.config(text=mensaje)
 
@@ -72,6 +74,6 @@ class RegistroServicio(tk.Frame,Sujeto):
     def cargar_autos_vendidos(self):
         # Obtiene la lista de autos y la carga en el ComboBox de id_autos
         autos = self.sistema.listar_autos_vendidos()
-        auto_ids = [auto[0] for auto in autos]  # Obtener solo los IDs de los autos
-        self.id_auto_servicio_combobox['values'] = auto_ids
+        auto_descriptions = [f"{auto[0]} - {auto[1]} ({auto[2]})" for auto in autos]  # ID - Modelo (Año)
+        self.id_auto_servicio_combobox['values'] = auto_descriptions
 

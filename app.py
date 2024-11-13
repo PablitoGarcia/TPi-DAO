@@ -19,15 +19,15 @@ from views.registro_ventas import RegistroVenta
 from views.listado_servicios import ListadoServicios
 from views.registro_servicios import RegistroServicio
 
-from views.Reports.reporte_ingresos_totales import ReporteIngresosTotales
-from views.Reports.reporte_ventasxmarcas import ReporteVentasxMarcas
-from views.Reports.reporte_ventasxperiodo import ReporteVentasxPeriodo
-from views.Reports.reporte_extra import ReporteExtra
+from views.reports.reporte_ingresos_totales import ReporteIngresosTotales
+from views.reports.reporte_ventasxmarcas import ReporteVentasxMarcas
+from views.reports.reporte_ventasxperiodo import ReporteVentasxPeriodo
+from views.reports.reporte_extra import ReporteExtra
 
 class App:
     def __init__(self,root):
         self.root = root 
-        self.sistema = GestorSistema()
+        self.sistema = GestorSistema.getInstance()
         root.title("Sistema de Gestion de Venta de Autos")
 
         
