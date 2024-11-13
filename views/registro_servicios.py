@@ -4,6 +4,7 @@ from tkinter import ttk
 from models.servicio import Servicio
 from models.Observer.Sujeto import Sujeto
 from tkcalendar import DateEntry
+from datetime import datetime
 
 class RegistroServicio(tk.Frame,Sujeto):
     def __init__(self, master, sistema):
@@ -63,7 +64,7 @@ class RegistroServicio(tk.Frame,Sujeto):
         self.id_servicio_entry.delete(0, tk.END)
         self.id_auto_servicio_combobox.set("")
         self.tipo_combobox.set("mantenimiento")
-        self.fecha_servicio_entry.set_date("")
+        self.fecha_servicio_entry.set_date(datetime.now())
         self.costo_servicio_entry.delete(0, tk.END)
 
         

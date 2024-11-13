@@ -175,18 +175,27 @@ class Database():
 
     # Listar todas las ventas realizadas en un periodo de tiempo.
     def get_ventas_xperiodo(self,fecha_inicio,fecha_fin):
-        self.cursor.execute(
-            "SELECT id_venta,id_auto,id_cliente,fecha,id_vendedor FROM ventas WHERE fecha between ? and ?", (fecha_inicio,fecha_fin)
-            )
+        self.cursor.execute("""
+            SELECT v.id_venta,(v.id_auto || a.modelo || a.marca),(v.id_cliente || c.nombre || c.apellido),v.fecha,(v.id_vendedor || ven.nombre || ven.apellido)
+            FROM ventas v 
+            JOIN autos a ON v.id_auto = a.vin
+            JOIN clientes c ON v.id_cliente = c.id_cliente
+            JOIN vendedores ven ON v.id_vendedor = ven.id_vendedor
+            WHERE v.fecha between ? and ?
+            """,(fecha_inicio,fecha_fin))
         
         return self.cursor.fetchall()
     
     def get_ingresos_ventas(self):
-        self.cursor.execute("SELECT a.modelo, COUNT(a.vin), SUM(a.precio) FROM ventas v JOIN autos a ON v.id_auto = a.vin GROUP BY a.modelo")       
+        self.cursor.execute("SELECT a.vin ,a.modelo,a.marca, COUNT(a.vin), SUM(a.precio) FROM ventas v JOIN autos a ON v.id_auto = a.vin GROUP BY a.modelo")       
         return self.cursor.fetchall()
 
     def get_ingresos_por_servicios(self):
-        self.cursor.execute("SELECT tipo_servicio, COUNT(id_servicio), SUM(costo) FROM servicios GROUP BY tipo_servicio")
+        self.cursor.execute("SELECT s.id_auto,a.modelo,a.marca,s.tipo_servicio, COUNT(s.id_servicio), SUM(s.costo) FROM servicios s JOIN autos a ON s.id_auto = a.vin GROUP BY s.tipo_servicio")
+        return self.cursor.fetchall()
+    
+    def get_autos_vendidos_marca(self):
+        self.cursor.execute("SELECT a.marca, COUNT(*) as cantidad_ventas FROM ventas v JOIN autos a ON v.id_auto = a.vin GROUP BY a.marca ORDER BY cantidad_ventas DESC")       
         return self.cursor.fetchall()
     
     

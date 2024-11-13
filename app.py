@@ -18,7 +18,9 @@ from views.registro_ventas import RegistroVenta
 from views.listado_servicios import ListadoServicios
 from views.registro_servicios import RegistroServicio
 
-from views.Reports.reporte_ingresosTotales import ListadoIngresos
+from views.reports.reporte_ingresos_totales import ReporteIngresosTotales
+from views.reports.reporte_ventasxmarcas import ReporteVentasxMarcas
+from views.reports.reporte_ventasxperiodo import ReporteVentasxPeriodo
 
 class App:
     def __init__(self,root):
@@ -63,7 +65,9 @@ class App:
 
         # Reportes 
         servicios_menu = tk.Menu(menu_bar, tearoff=0)
+        servicios_menu.add_command(label="Autos vendidos por Periodo", command=self.abrir_reporte_ventasxperiodo)
         servicios_menu.add_command(label="Ingresos Totales", command=self.abrir_reporte_ingresosTotales)
+        servicios_menu.add_command(label="Autos Mas vendidos por Marca", command=self.abrir_reporte_ventasxmarca)
         menu_bar.add_cascade(label="Reportes", menu=servicios_menu)
 
 
@@ -71,6 +75,8 @@ class App:
         frame.tkraise()
 
     def abrir_registro_cliente(self):
+        self.limpiar_frame()
+    
         self.registro_cliente_frame = RegistroCliente(self.root, self.sistema)
         self.registro_cliente_frame.grid(row=0, column=0, sticky="nsew")
 
@@ -87,6 +93,7 @@ class App:
     
 
     def abrir_registro_auto(self):
+        self.limpiar_frame()
         self.registro_auto_frame = RegistroAuto(self.root,self.sistema)
         self.registro_auto_frame.grid(row=0, column=0, sticky="nsew")
 
@@ -102,6 +109,7 @@ class App:
 
 
     def abrir_registro_vendedor(self):
+        self.limpiar_frame()
         self.registro_vendedor_frame = RegistroVendedor(self.root, self.sistema)
         self.registro_vendedor_frame.grid(row=0, column=0, sticky="nsew")
 
@@ -117,6 +125,7 @@ class App:
 
 
     def abrir_registro_venta(self):
+        self.limpiar_frame()
         self.registro_venta_frame = RegistroVenta(self.root, self.sistema)
         self.registro_venta_frame.grid(row=0, column=0, sticky="nsew")
 
@@ -132,6 +141,7 @@ class App:
         
         
     def abrir_registro_servicios(self):
+        self.limpiar_frame()
         self.registro_servicios_frame = RegistroServicio(self.root, self.sistema)
         self.registro_servicios_frame.grid(row=0, column=0, sticky="nsew")
 
@@ -146,11 +156,37 @@ class App:
         self.mostrar_frame(self.listado_servicios_frame)
     
     def abrir_reporte_ingresosTotales(self):
-        self.reporte_ingresosTotales_frame = ListadoIngresos(self.root, self.sistema)
+        
+        self.limpiar_frame()
+            
+        self.reporte_ingresosTotales_frame = ReporteIngresosTotales(self.root, self.sistema)
         self.reporte_ingresosTotales_frame.grid(row=0, column=0, sticky="nsew")
         
-        self.mostrar_frame(self.reporte_ingresosTotales_frame)
-        
-        
 
+        self.mostrar_frame(self.reporte_ingresosTotales_frame)
+    
+    def abrir_reporte_ventasxmarca(self):
+        
+        self.limpiar_frame()
+            
+        
+        self.reporte_ventasxmarca_frame = ReporteVentasxMarcas(self.root, self.sistema)
+        self.reporte_ventasxmarca_frame.grid(row=5, column=0, sticky="nsew")
+
+        self.mostrar_frame(self.reporte_ventasxmarca_frame)
+
+    def abrir_reporte_ventasxperiodo(self):
+        
+        self.limpiar_frame()
+            
+        
+        self.reporte_ventasxperiodo_frame = ReporteVentasxPeriodo(self.root, self.sistema)
+        self.reporte_ventasxperiodo_frame.grid(row=5, column=0, sticky="nsew")
+
+        self.mostrar_frame(self.reporte_ventasxperiodo_frame)
+        
+    def limpiar_frame(self):
+        for child in self.root.winfo_children():
+            if not isinstance(child, tk.Menu):
+                child.destroy()
 

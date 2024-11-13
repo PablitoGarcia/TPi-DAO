@@ -89,6 +89,9 @@ class GestorSistema:
     
     def reporte_ingreso_servicios(self):
         return self.db.get_ingresos_por_servicios()
+    
+    def reporte_autos_vendidos_marca(self):
+        return self.db.get_autos_vendidos_marca()
         
     def registrar_servicio(self, servicio:Servicio):
         

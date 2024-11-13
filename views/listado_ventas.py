@@ -1,8 +1,6 @@
 import tkinter as tk
 from tkinter import ttk
 from tkinter import messagebox
-from tkcalendar import DateEntry
-from datetime import datetime
 from models.reporte import ReportePDF
 
 class ListadoVentas(tk.Frame):
@@ -30,19 +28,6 @@ class ListadoVentas(tk.Frame):
         self.boton_mostrar_todas = tk.Button(self, text="Mostrar Todas las Ventas", command=self.cargar_ventas)
         self.boton_mostrar_todas.grid(row=0, column=2, padx=10, pady=10)
 
-        self.label_venta = tk.Label(self, text="Reporte Ventas Realizadas en el periodo:")
-        self.label_venta.grid(row=5, column=0, padx=10, pady=10)
-        # Fecha de inicio
-        self.label_ventaFechaInicio = tk.Label(self, text="Fecha de inicio:").grid(row=6, column=0, padx=5, pady=5)
-        self.fecha_inicio = DateEntry(self, width=12, background='darkblue', foreground='white', borderwidth=2)
-        self.fecha_inicio.grid(row=6, column=1, padx=5, pady=5)
-
-        # Fecha de fin
-        self.label_ventaFechaInicio = tk.Label(self, text="Fecha de fin:").grid(row=7, column=0, padx=5, pady=5)
-        self.fecha_fin = DateEntry(self, width=12, background='darkblue', foreground='white', borderwidth=2)
-        self.fecha_fin.grid(row=7, column=1, padx=5, pady=5)
-        self.boton_mostrar_todos = tk.Button(self, text="Generar Reporte", command=self.reporte_ventas_xperiodo)
-        self.boton_mostrar_todos.grid(row=8, column=1, padx=10, pady=10)
         # Cargar clientes y ventas
         self.cargar_clientes()
         self.cargar_ventas()
@@ -72,19 +57,6 @@ class ListadoVentas(tk.Frame):
         cliente_ids = [cliente[0] for cliente in clientes]  # Obtener solo los IDs de los clientes
         self.combo_cliente['values'] = cliente_ids
             
-    def reporte_ventas_xperiodo(self):
-        fecha_inicio = self.fecha_inicio.get_date()
-        fecha_fin = self.fecha_fin.get_date()
-
-        if fecha_inicio > fecha_fin:
-            messagebox.showerror("Error", "La fecha de inicio no puede ser posterior a la fecha de fin.")
-            return
-        
-        ventasXperiodo = self.sistema.reporte_ventas_xperiodo(fecha_inicio,fecha_fin)
-
-        encabezados = ["ID Venta", "Auto", "Cliente", "Fecha", "Vendedor"]
-        reporte = ReportePDF(f"Reporte de Ventas {fecha_inicio} a {fecha_fin}", encabezados, ventasXperiodo)
-        reporte.generar_reporte("Reporte_ventas_xperiodo.pdf")
 
     def refrescar(self):
         self.cargar_ventas()
