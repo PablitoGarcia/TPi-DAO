@@ -52,7 +52,6 @@ class ReporteExtra(tk.Frame):
         ax1.axis('equal')
         
         ingresos_mensuales = self.sistema.reporte_ingresos_mensuales()
-        print(ingresos_mensuales)
         mes = [row[0] for row in ingresos_mensuales]
         ingresos = [row[1] for row in ingresos_mensuales]
         
